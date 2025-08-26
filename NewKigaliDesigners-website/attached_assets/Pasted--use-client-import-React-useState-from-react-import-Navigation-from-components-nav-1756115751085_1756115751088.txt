@@ -1,0 +1,627 @@
+"use client";
+
+import React, { useState } from "react";
+import { Navigation } from "@/components/navigation";
+import { JobApplicationForm } from "@/components/job-application-form";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Input } from "@/components/ui/input";
+import {
+  Briefcase,
+  MapPin,
+  Clock,
+  DollarSign,
+  Users,
+  TrendingUp,
+  Award,
+  Heart,
+  Search,
+  Filter,
+  Building,
+  Calendar,
+  Star,
+  Coffee,
+  GraduationCap,
+  Sparkles,
+} from "lucide-react";
+
+export default function CareersPage() {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedDepartment, setSelectedDepartment] = useState("all");
+  const [selectedJob, setSelectedJob] = useState<{
+    id: number;
+    title: string;
+  } | null>(null);
+
+  const jobs = [
+    {
+      id: 1,
+      title: "Senior Fashion Designer",
+      department: "Design",
+      location: "Kigali, Rwanda",
+      type: "Full-time",
+      salary: "$35,000 - $50,000",
+      experience: "3+ years",
+      posted: "2 days ago",
+      description:
+        "Lead our design team in creating innovative African-inspired fashion collections",
+      requirements: [
+        "Bachelor's in Fashion Design",
+        "Proficiency in CAD software",
+        "Portfolio of previous work",
+        "Leadership experience",
+      ],
+      benefits: [
+        "Health insurance",
+        "Creative freedom",
+        "Professional development",
+        "Flexible hours",
+      ],
+      featured: true,
+    },
+    {
+      id: 2,
+      title: "Production Manager",
+      department: "Operations",
+      location: "Kigali, Rwanda",
+      type: "Full-time",
+      salary: "$30,000 - $40,000",
+      experience: "5+ years",
+      posted: "1 week ago",
+      description:
+        "Oversee production processes and ensure quality standards are met",
+      requirements: [
+        "Manufacturing experience",
+        "Quality control knowledge",
+        "Team management",
+        "Process optimization",
+      ],
+      benefits: [
+        "Health insurance",
+        "Performance bonuses",
+        "Training programs",
+        "Career advancement",
+      ],
+      featured: false,
+    },
+    {
+      id: 3,
+      title: "Digital Marketing Specialist",
+      department: "Marketing",
+      location: "Kigali, Rwanda",
+      type: "Full-time",
+      salary: "$25,000 - $35,000",
+      experience: "2+ years",
+      posted: "3 days ago",
+      description:
+        "Drive our digital presence and e-commerce growth strategies",
+      requirements: [
+        "Digital marketing experience",
+        "Social media expertise",
+        "Analytics proficiency",
+        "Creative thinking",
+      ],
+      benefits: [
+        "Health insurance",
+        "Remote work options",
+        "Marketing budget",
+        "Conference attendance",
+      ],
+      featured: true,
+    },
+    {
+      id: 4,
+      title: "Textile Quality Inspector",
+      department: "Quality",
+      location: "Kigali, Rwanda",
+      type: "Full-time",
+      salary: "$10,000 - $25,000",
+      experience: "1+ years",
+      posted: "5 days ago",
+      description:
+        "Ensure all materials and finished products meet our high-quality standards",
+      requirements: [
+        "Quality control experience",
+        "Attention to detail",
+        "Knowledge of textiles",
+        "Documentation skills",
+      ],
+      benefits: [
+        "Health insurance",
+        "Skill development",
+        "Quality bonuses",
+        "Stable employment",
+      ],
+      featured: false,
+    },
+    {
+      id: 5,
+      title: "Customer Service Representative",
+      department: "Customer Service",
+      location: "Kigali, Rwanda",
+      type: "Part-time",
+      salary: "$15,000 - $22,000",
+      experience: "Entry level",
+      posted: "1 day ago",
+      description:
+        "Provide exceptional customer support and build lasting relationships",
+      requirements: [
+        "Excellent communication",
+        "Problem-solving skills",
+        "Multi-language abilities",
+        "Patience and empathy",
+      ],
+      benefits: [
+        "Flexible schedule",
+        "Customer service training",
+        "Growth opportunities",
+        "Team environment",
+      ],
+      featured: false,
+    },
+    {
+      id: 6,
+      title: "Sustainability Coordinator",
+      department: "Operations",
+      location: "Kigali, Rwanda",
+      type: "Full-time",
+      salary: "$28,000 - $38,000",
+      experience: "2+ years",
+      posted: "1 week ago",
+      description:
+        "Lead our sustainability initiatives and environmental impact programs",
+      requirements: [
+        "Environmental science background",
+        "Sustainability experience",
+        "Project management",
+        "Data analysis",
+      ],
+      benefits: [
+        "Health insurance",
+        "Environmental impact",
+        "Research opportunities",
+        "Conference participation",
+      ],
+      featured: true,
+    },
+  ];
+
+  const departments = [
+    { id: "all", name: "All Departments", count: jobs.length },
+    {
+      id: "Design",
+      name: "Design",
+      count: jobs.filter((j) => j.department === "Design").length,
+    },
+    {
+      id: "Operations",
+      name: "Operations",
+      count: jobs.filter((j) => j.department === "Operations").length,
+    },
+    {
+      id: "Marketing",
+      name: "Marketing",
+      count: jobs.filter((j) => j.department === "Marketing").length,
+    },
+    {
+      id: "Quality",
+      name: "Quality",
+      count: jobs.filter((j) => j.department === "Quality").length,
+    },
+    {
+      id: "Customer Service",
+      name: "Customer Service",
+      count: jobs.filter((j) => j.department === "Customer Service").length,
+    },
+  ];
+
+  const benefits = [
+    {
+      title: "Health & Wellness",
+      description: "Comprehensive health insurance and wellness programs",
+      icon: Heart,
+      details: [
+        "Medical insurance",
+        "Dental coverage",
+        "Mental health support",
+        "Gym membership",
+      ],
+    },
+    {
+      title: "Professional Growth",
+      description: "Continuous learning and career development opportunities",
+      icon: TrendingUp,
+      details: [
+        "Skill training",
+        "Conference attendance",
+        "Mentorship programs",
+        "Career advancement",
+      ],
+    },
+    {
+      title: "Work-Life Balance",
+      description: "Flexible working arrangements and time off policies",
+      icon: Coffee,
+      details: [
+        "Flexible hours",
+        "Remote work options",
+        "Paid time off",
+        "Family leave",
+      ],
+    },
+    {
+      title: "Innovation & Creativity",
+      description: "Freedom to innovate and bring creative ideas to life",
+      icon: Sparkles,
+      details: [
+        "Creative projects",
+        "Innovation time",
+        "Idea implementation",
+        "Design freedom",
+      ],
+    },
+  ];
+
+  const filteredJobs = jobs.filter((job) => {
+    const matchesSearch =
+      job.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      job.description.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesDepartment =
+      selectedDepartment === "all" || job.department === selectedDepartment;
+    return matchesSearch && matchesDepartment;
+  });
+
+  return (
+    <div className="min-h-screen bg-background">
+      <Navigation />
+
+      {/* Hero Section */}
+      <section className="bg-gradient-to-r from-primary/10 to-accent/10 py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h1 className="font-serif text-4xl md:text-6xl font-bold text-foreground mb-6">
+            Join Our Team
+          </h1>
+          <p className="text-xl text-muted-foreground max-w-3xl mx-auto mb-8">
+            Be part of the future of African fashion. We're looking for
+            passionate individuals who want to make a difference in the fashion
+            industry.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button size="lg" className="text-lg px-8">
+              View Open Positions
+            </Button>
+            <Button variant="outline" size="lg" className="text-lg px-8">
+              Learn About Our Culture
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* Company Stats */}
+      <section className="py-12 bg-muted/30">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid md:grid-cols-4 gap-6 text-center">
+            <div className="bg-background rounded-lg p-6 shadow-sm">
+              <Users className="h-8 w-8 text-primary mx-auto mb-2" />
+              <div className="text-2xl font-bold text-foreground">50+</div>
+              <div className="text-sm text-muted-foreground">Team Members</div>
+            </div>
+            <div className="bg-background rounded-lg p-6 shadow-sm">
+              <Award className="h-8 w-8 text-primary mx-auto mb-2" />
+              <div className="text-2xl font-bold text-foreground">5</div>
+              <div className="text-sm text-muted-foreground">
+                Years of Excellence
+              </div>
+            </div>
+            <div className="bg-background rounded-lg p-6 shadow-sm">
+              <TrendingUp className="h-8 w-8 text-primary mx-auto mb-2" />
+              <div className="text-2xl font-bold text-foreground">200%</div>
+              <div className="text-sm text-muted-foreground">Growth Rate</div>
+            </div>
+            <div className="bg-background rounded-lg p-6 shadow-sm">
+              <Star className="h-8 w-8 text-primary mx-auto mb-2" />
+              <div className="text-2xl font-bold text-foreground">4.8/5</div>
+              <div className="text-sm text-muted-foreground">
+                Employee Satisfaction
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Job Search and Filters */}
+      <section className="py-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row gap-4 items-center justify-between mb-8">
+            <div className="relative flex-grow max-w-md">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+              <Input
+                placeholder="Search positions..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-10"
+              />
+            </div>
+            <div className="flex gap-2 flex-wrap">
+              {departments.map((dept) => (
+                <Button
+                  key={dept.id}
+                  variant={
+                    selectedDepartment === dept.id ? "default" : "outline"
+                  }
+                  size="sm"
+                  onClick={() => setSelectedDepartment(dept.id)}
+                  className="flex items-center gap-1"
+                >
+                  {dept.name}
+                  <Badge variant="secondary" className="ml-1 text-xs">
+                    {dept.count}
+                  </Badge>
+                </Button>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Job Listings */}
+      <section className="py-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid gap-6">
+            {filteredJobs.map((job) => (
+              <Card
+                key={job.id}
+                className={`hover:shadow-lg transition-shadow ${job.featured ? "ring-2 ring-primary/20" : ""}`}
+              >
+                <CardHeader>
+                  <div className="flex items-start justify-between">
+                    <div className="flex-grow">
+                      <div className="flex items-center gap-2 mb-2">
+                        <CardTitle className="font-serif text-xl">
+                          {job.title}
+                        </CardTitle>
+                        {job.featured && (
+                          <Badge className="bg-primary/10 text-primary border-primary">
+                            Featured
+                          </Badge>
+                        )}
+                      </div>
+                      <CardDescription className="mb-3">
+                        {job.description}
+                      </CardDescription>
+                      <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
+                        <div className="flex items-center gap-1">
+                          <Building className="h-4 w-4" />
+                          {job.department}
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <MapPin className="h-4 w-4" />
+                          {job.location}
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <Clock className="h-4 w-4" />
+                          {job.type}
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <DollarSign className="h-4 w-4" />
+                          {job.salary}
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <GraduationCap className="h-4 w-4" />
+                          {job.experience}
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <Calendar className="h-4 w-4" />
+                          Posted {job.posted}
+                        </div>
+                      </div>
+                    </div>
+                    <Button
+                      className="ml-4"
+                      onClick={() =>
+                        setSelectedJob({ id: job.id, title: job.title })
+                      }
+                    >
+                      Apply Now
+                    </Button>
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <Tabs defaultValue="requirements" className="w-full">
+                    <TabsList className="grid grid-cols-2 w-full max-w-md">
+                      <TabsTrigger value="requirements">
+                        Requirements
+                      </TabsTrigger>
+                      <TabsTrigger value="benefits">Benefits</TabsTrigger>
+                    </TabsList>
+                    <TabsContent value="requirements" className="mt-4">
+                      <ul className="space-y-2">
+                        {job.requirements.map((req, index) => (
+                          <li
+                            key={index}
+                            className="flex items-center gap-2 text-sm"
+                          >
+                            <div className="w-1.5 h-1.5 bg-primary rounded-full flex-shrink-0"></div>
+                            {req}
+                          </li>
+                        ))}
+                      </ul>
+                    </TabsContent>
+                    <TabsContent value="benefits" className="mt-4">
+                      <div className="flex flex-wrap gap-2">
+                        {job.benefits.map((benefit, index) => (
+                          <Badge
+                            key={index}
+                            variant="outline"
+                            className="text-xs"
+                          >
+                            {benefit}
+                          </Badge>
+                        ))}
+                      </div>
+                    </TabsContent>
+                  </Tabs>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+
+          {filteredJobs.length === 0 && (
+            <div className="text-center py-12">
+              <Briefcase className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+              <h3 className="text-lg font-semibold text-foreground mb-2">
+                No positions found
+              </h3>
+              <p className="text-muted-foreground">
+                Try adjusting your search criteria or check back later for new
+                opportunities.
+              </p>
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* Benefits Section */}
+      <section className="py-16 bg-muted/30">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="font-serif text-3xl md:text-4xl font-bold text-foreground mb-4">
+              Why Work With Us?
+            </h2>
+            <p className="text-lg text-muted-foreground">
+              We believe in taking care of our team with comprehensive benefits
+              and growth opportunities
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {benefits.map((benefit, index) => (
+              <Card
+                key={index}
+                className="text-center hover:shadow-lg transition-shadow"
+              >
+                <CardHeader>
+                  <benefit.icon className="h-12 w-12 text-primary mx-auto mb-3" />
+                  <CardTitle className="font-serif">{benefit.title}</CardTitle>
+                  <CardDescription>{benefit.description}</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <ul className="space-y-2 text-sm">
+                    {benefit.details.map((detail, i) => (
+                      <li
+                        key={i}
+                        className="flex items-center justify-center gap-2"
+                      >
+                        <div className="w-1 h-1 bg-primary rounded-full"></div>
+                        {detail}
+                      </li>
+                    ))}
+                  </ul>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Culture Section */}
+      <section className="py-16">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="font-serif text-3xl md:text-4xl font-bold text-foreground mb-6">
+            Our Culture
+          </h2>
+          <p className="text-lg text-muted-foreground mb-8">
+            We foster a collaborative, innovative environment where creativity
+            thrives and every voice matters. Our team is our greatest asset, and
+            we're committed to creating a workplace where everyone can grow and
+            succeed.
+          </p>
+          <div className="grid md:grid-cols-3 gap-8 mb-12">
+            <div className="space-y-2">
+              <h3 className="font-serif text-xl font-semibold">Innovation</h3>
+              <p className="text-muted-foreground text-sm">
+                We encourage creative thinking and provide the tools to turn
+                ideas into reality
+              </p>
+            </div>
+            <div className="space-y-2">
+              <h3 className="font-serif text-xl font-semibold">
+                Collaboration
+              </h3>
+              <p className="text-muted-foreground text-sm">
+                Our diverse team works together to achieve common goals and
+                support each other
+              </p>
+            </div>
+            <div className="space-y-2">
+              <h3 className="font-serif text-xl font-semibold">Impact</h3>
+              <p className="text-muted-foreground text-sm">
+                Every role contributes to our mission of revolutionizing African
+                fashion
+              </p>
+            </div>
+          </div>
+          <Button size="lg" className="text-lg px-8">
+            Learn More About Our Values
+          </Button>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-16 bg-gradient-to-r from-primary/10 to-accent/10">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="font-serif text-3xl font-bold text-foreground mb-4">
+            Don't See Your Perfect Role?
+          </h2>
+          <p className="text-lg text-muted-foreground mb-8">
+            We're always looking for talented individuals. Send us your resume
+            and tell us how you'd like to contribute.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button size="lg" className="text-lg px-8">
+              Submit General Application
+            </Button>
+            <Button variant="outline" size="lg" className="text-lg px-8">
+              Set Job Alerts
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-foreground text-background py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <h3 className="font-serif text-2xl font-bold mb-4">
+              New Kigali Designers
+            </h3>
+            <p className="text-background/80 mb-6">
+              Join us in crafting the future of African fashion
+            </p>
+            <p className="text-background/50 text-xs">
+              Equal Opportunity Employer | Competitive Benefits | Growth
+              Opportunities | Contact: careers@nkd.com
+            </p>
+          </div>
+        </div>
+      </footer>
+
+      {/* Job Application Form Modal */}
+      {selectedJob && (
+        <JobApplicationForm
+          jobTitle={selectedJob.title}
+          jobId={selectedJob.id}
+          onClose={() => setSelectedJob(null)}
+        />
+      )}
+    </div>
+  );
+}
